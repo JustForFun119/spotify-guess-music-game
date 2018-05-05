@@ -48,9 +48,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   // theme
-  padding-top: 5%;
-  padding-left: 10%;
-  padding-right: 10%;
+  padding: 2% 10%;
 
   &.container {
     min-height: 100vh;
@@ -64,7 +62,7 @@ body {
   }
   .content {
     height: 100%;
-    padding: 10% 0;
+    padding: 5% 0;
     text-align: center;
   }
 }

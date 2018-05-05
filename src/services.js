@@ -21,6 +21,7 @@ export function isUserLoggedIn() {
     return accessToken !== null;
 }
 
+// ---- Spotify web player
 function initSpotifyWebPlayer() {
     // Register Spotify Web Playback/Player
     window.onSpotifyWebPlaybackSDKReady = () => {
@@ -69,6 +70,11 @@ function initSpotifyWebPlayer() {
     };
 }
 
+export function getSpotifyWebPlayer() {
+    return spotifyWebPlayer;
+}
+
+// Play a track with web player
 export function playTrackOnPlayer(trackURI) {
     const playerID = spotifyWebPlayer._options.id;
     return new Promise((resolve, reject) => {

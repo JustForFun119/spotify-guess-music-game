@@ -9,30 +9,43 @@
     </div>
 
     <div v-else class="game-container">
-      <p>{{ selectedPlaylist.name }} by 
-      {{ selectedPlaylist.owner.display_name || selectedPlaylist.owner.id }}</p>
+      <div class="selected-playlist-info">
+        <p>Now playing</p>
+        <p class="selected-playlist--name">
+          {{ selectedPlaylist.name }}
+        </p>
+        <p class="selected-playlist--owner">
+          by {{ selectedPlaylist.owner.display_name || selectedPlaylist.owner.id }}
+        </p>
+      </div>
 
-      <game v-if="canStartGame"
-        :tracks="playlistTracks" :spotifyWebPlayer="spotifyWebPlayer"/>
+      <game-quiz v-if="canStartGame" :tracks="playlistTracks"/>
+      
+      <div class="player-controls">
+        <play-pause-button/>
+        <volume-slider/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import PlaylistPicker from "./PlaylistPicker.vue";
-import Game from "./Game.vue";
+import GameQuiz from "./GameQuiz.vue";
+import VolumeSlider from "./VolumeSlider.vue";
+import PlayPauseButton from "./PlayPauseButton.vue";
 import { fetchUserPlaylist, fetchPlaylistTracks } from "../services.js";
 
 export default {
   name: "game-view",
-  props: { spotifyWebPlayer: Object },
-  components: { PlaylistPicker, Game },
+  components: { PlaylistPicker, GameQuiz, VolumeSlider, PlayPauseButton },
   data() {
     return {
       playlists: null,
       selectedPlaylist: null,
       playlistTracks: null,
-      canStartGame: false
+      canStartGame: false,
+      isPlayerPaused: false
     };
   },
   mounted() {
@@ -54,9 +67,40 @@ export default {
 </script>
 
 <style lang="scss">
-.playlist-selection {
-  & > p {
-    font-size: 1.2rem;
+.game-container {
+  .selected-playlist-info {
+    text-align: end;
+    color: lightgrey;
+    p {
+      margin: 0;
+    }
+    .selected-playlist--name {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      font-size: 1.4rem;
+      color: white;
+    }
+    .selected-playlist--owner {
+      margin-top: 0.25rem;
+    }
+  }
+  .playlist-selection {
+    & > p {
+      font-size: 1.2rem;
+    }
+  }
+  .player-controls {
+    background-color: rgba(222, 222, 222, 0.33);
+    margin-top: 2%;
+    padding: 2% 0;
+    // flex row
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    & > * {
+      margin: 0 1rem;
+    }
   }
 }
 </style>

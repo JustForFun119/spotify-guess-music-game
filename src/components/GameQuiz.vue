@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Title?</h2>
+    <h2>Track Title?</h2>
     <div class="quiz">
       <div class="quiz-choices">
         <div v-for="(track, idx) in question.tracks" :key="idx"
@@ -16,19 +16,15 @@
         </div>
       </div>
     </div>
-
-    <spotify-web-player></spotify-web-player>
   </div>
 </template>
 
 <script>
-import SpotifyWebPlayer from "./SpotifyWebPlayer.vue";
 import { playTrackOnPlayer } from "../services.js";
 
 export default {
-  name: "game",
-  props: { spotifyWebPlayer: Object, tracks: Array },
-  components: { SpotifyWebPlayer },
+  name: "game-quiz-view",
+  props: { tracks: Array },
   data() {
     return {
       tracksPool: null,
