@@ -1,11 +1,13 @@
 <template>
-  <div id="app">
-    <h1>Guess the Music!</h1>
-    <h3>Powered by Spotify</h3>
-
-    <spotify-login v-if="userIsLoggedIn === false"/>
-
-    <pre-game v-if="userIsLoggedIn" :spotifyWebPlayer="spotifyWebPlayer"/>
+  <div id="app" class="container">
+    <div class="header">
+      <h1>Guess the Music!</h1>
+      <h3>Powered by Spotify</h3>
+    </div>
+    <div class="content">
+      <spotify-login v-if="userIsLoggedIn === false"/>
+      <pre-game v-if="userIsLoggedIn" :spotifyWebPlayer="spotifyWebPlayer"/>
+    </div>
   </div>
 </template>
 
@@ -29,7 +31,7 @@ export default {
   methods: {
     initSpotifyWebPlayer() {
       const token =
-        "BQAYxKBkMdgpLbfodVr2bUI-TH4rxsmmvUQ8Juk_SB3KxY5EKUE6DROSfsfuvlX2cBa6V0S-sfDgX-D_egTXEhetGhdFW2FSsZlBRRvdCfGhJKD2Ok_y4cZExB_wLOllFVWVk9GEZZ2cQ2PDZ4iqJ2ZHL7mNG2tDYAjdODQB1A";
+        "BQBsQEXGAkCe8_yms-sWscWPJw91d6Z9cLROkBDxST2p3akSdX0XvmASttjbV9U6j4rbB69d60i5PNV3XQlQtFX1A1OyIROihIEPBE0-0h5-NNztmLFaDUBEoUbaJB5slbu9y3-dg4ZQ-aVu_U1P5nJNhGbnC3_GmEJJV-1wiQ";
 
       // Register Spotify Web Playback/Player
       window.onSpotifyWebPlaybackSDKReady = () => {
@@ -86,32 +88,43 @@ export default {
   box-sizing: border-box;
 }
 
+// mobile screen sizing
+html {
+  height: 100%;
+  width: 100%;
+}
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color: white;
+}
+
+// app styles
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  // TODO: theme?
-}
+  // theme
+  padding-top: 5%;
+  padding-left: 10%;
+  padding-right: 10%;
 
-h1,
-h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+  &.container {
+    min-height: 100vh;
+    margin: 0 auto;
+  }
+  .header {
+    h1,
+    h3 {
+      margin: 0;
+    }
+  }
+  .content {
+    height: 100%;
+    padding: 10% 0;
+    text-align: center;
+  }
 }
 </style>

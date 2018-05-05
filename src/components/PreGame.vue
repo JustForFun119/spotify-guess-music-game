@@ -1,19 +1,20 @@
 <template>
   <div>
-    <template v-if="!selectedPlaylist">
+    <div v-if="!selectedPlaylist" class="playlist-selection">
       <p>Choose a playlist to begin</p>
       <p>Your Playlists</p>
       <playlist-picker v-if="playlists" :playlists="playlists"
         @onPlaylistSelect="onPlaylistSelect"/>
       <p v-else>Loading...</p>
-    </template>
+    </div>
 
-    <template v-else>
+    <div v-else class="game-container">
       <p>{{ selectedPlaylist.name }} by 
       {{ selectedPlaylist.owner.display_name || selectedPlaylist.owner.id }}</p>
 
-      <game :tracks="playlistTracks" :spotifyWebPlayer="spotifyWebPlayer"/>
-    </template>
+      <game v-if="canStartGame"
+        :tracks="playlistTracks" :spotifyWebPlayer="spotifyWebPlayer"/>
+    </div>
   </div>
 </template>
 
@@ -30,7 +31,8 @@ export default {
     return {
       playlists: null,
       selectedPlaylist: null,
-      playlistTracks: null
+      playlistTracks: null,
+      canStartGame: false
     };
   },
   mounted() {
@@ -45,12 +47,17 @@ export default {
       this.selectedPlaylist = playlist;
       fetchPlaylistTracks(playlist.id).then(tracks => {
         this.playlistTracks = tracks;
+        this.canStartGame = true;
       });
     }
   }
 };
 </script>
 
-<style>
-
+<style lang="scss">
+.playlist-selection {
+  & > p {
+    font-size: 1.2rem;
+  }
+}
 </style>

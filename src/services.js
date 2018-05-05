@@ -1,4 +1,4 @@
-const accessToken = 'BQBqxyNK5BydXH_juEqjKxqmxD3_mJmz0af65-JNYC8ltsVz-0EFbHOotmq7-GwXClWSaAiDcUhkySF9tgOCTnxEGAoDvn3lc-pf2H5YuhPJxVmbWrANhX3PQJJ2CVl26vrbzWpfBWBmhTiWeSNbo884lOM6dElmCw';
+const accessToken = 'BQAuJ5DRH3YP0FjD9arCpiJB_5Fh0wnWtHmHqOOsZa5G-vzlu_MwduoW3GEfx2JP506DWNoxKxSYzh2B01x37pmA7GZzM2uXJFDOAXhBIrPprvd453z68G74MQ66GcnVy3FfN_EG9s_iNrEu6qRrh9gF3NqgDl2iPg';
 
 const apiRequest = (token) => ({
     headers: {
@@ -21,9 +21,7 @@ export function playTrackOnPlayer(trackURI, { _options: { id } }) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${accessToken}`
             },
-        }).then(res => res.json()).then(res => {
-            console.log('services.playTrack: ', res);
-        }).catch(error => reject(error));
+        }).then(res => res.json()).then(resolve).catch(error => reject(error));
     });
 }
 
