@@ -24,7 +24,7 @@ import Game from "./Game.vue";
 import { fetchUserPlaylist, fetchPlaylistTracks } from "../services.js";
 
 export default {
-  name: "pre-game",
+  name: "game-view",
   props: { spotifyWebPlayer: Object },
   components: { PlaylistPicker, Game },
   data() {
@@ -36,7 +36,6 @@ export default {
     };
   },
   mounted() {
-    console.log("pre-game mounted");
     fetchUserPlaylist().then(playlists => {
       this.playlists = playlists;
       console.log(playlists);

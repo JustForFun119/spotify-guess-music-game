@@ -1,20 +1,79 @@
-const accessToken = 'BQAuJ5DRH3YP0FjD9arCpiJB_5Fh0wnWtHmHqOOsZa5G-vzlu_MwduoW3GEfx2JP506DWNoxKxSYzh2B01x37pmA7GZzM2uXJFDOAXhBIrPprvd453z68G74MQ66GcnVy3FfN_EG9s_iNrEu6qRrh9gF3NqgDl2iPg';
-
-const apiRequest = (token) => ({
+// Spotify web API request builder
+const getAPIRequestObj = () => ({
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${accessToken}`
     }
 });
 
 // service state (local, in-memory)
-let userID;
+let accessToken = null; // user auth access token
+let spotifyWebPlayer = null, userID = null; // service state
 
-export function playTrackOnPlayer(trackURI, { _options: { id } }) {
+export function processAuth(params) {
+    // obtain access token from Spotify auth
+    accessToken = params['access_token'];
+    initSpotifyWebPlayer(); // init Spotify web player for music playback
+    console.info('Acess token obtained', accessToken);
+}
+export function isUserLoggedIn() {
+    return accessToken !== null;
+}
+
+function initSpotifyWebPlayer() {
+    // Register Spotify Web Playback/Player
+    window.onSpotifyWebPlaybackSDKReady = () => {
+        const player = new Spotify.Player({
+            name: "Guess the Music! Spotify Web Player",
+            getOAuthToken: cb => {
+                cb(accessToken);
+            },
+            volume: 0.25
+        });
+
+        // Error handling
+        player.addListener("initialization_error", ({ message }) => {
+            console.error(message);
+        });
+        player.addListener("authentication_error", ({ message }) => {
+            console.error(message);
+        });
+        player.addListener("account_error", ({ message }) => {
+            console.error(message);
+        });
+        player.addListener("playback_error", ({ message }) => {
+            console.error(message);
+        });
+
+        // Playback status updates
+        player.addListener("player_state_changed", state => {
+            console.log(state);
+        });
+
+        // Ready
+        player.addListener("ready", ({ device_id }) => {
+            console.log("Ready with Device ID", device_id);
+        });
+
+        // Not Ready
+        player.addListener("not_ready", ({ device_id }) => {
+            console.log("Device ID has gone offline", device_id);
+        });
+
+        // Connect to the player!
+        player.connect();
+
+        // player reference
+        spotifyWebPlayer = player;
+    };
+}
+
+export function playTrackOnPlayer(trackURI) {
+    const playerID = spotifyWebPlayer._options.id;
     return new Promise((resolve, reject) => {
-        if (!id || !trackURI) reject('invalid track URI/player ID');
-        fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
+        if (!trackURI || !playerID) reject('invalid track URI/player ID');
+        fetch(`https://api.spotify.com/v1/me/player/play?device_id=${playerID}`, {
             method: 'PUT',
             body: JSON.stringify({ uris: [trackURI] }),
             headers: {
@@ -29,7 +88,7 @@ export function playTrackOnPlayer(trackURI, { _options: { id } }) {
 export function fetchUserPlaylist() {
     return new Promise((resolve, reject) => {
         // get user ID from '/me' API endpoint
-        fetch('https://api.spotify.com/v1/me', apiRequest(accessToken))
+        fetch('https://api.spotify.com/v1/me', getAPIRequestObj())
             .then(res => res.json())
             .then(resJson => {
                 // user ID exist
@@ -37,7 +96,7 @@ export function fetchUserPlaylist() {
                 userID = resJson.id;
                 // get user playlists from '/users/{ID}/playlists' API endpoint
                 fetch(`https://api.spotify.com/v1/users/${userID}/playlists`,
-                    apiRequest(accessToken))
+                    getAPIRequestObj())
                     .then(res => res.json())
                     .then(playlistResJson => {
                         resolve(playlistResJson.items);
@@ -51,7 +110,7 @@ export function fetchPlaylistTracks(playlistID) {
     return new Promise((resolve, reject) => {
         if (!userID || !playlistID) reject('invalid user ID/playlist ID');
         fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks`,
-            apiRequest(accessToken))
+            getAPIRequestObj())
             .then(res => res.json())
             .then(resJson => {
                 resolve(resJson.items);
