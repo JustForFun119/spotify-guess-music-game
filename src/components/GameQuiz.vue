@@ -102,16 +102,16 @@ $screen-height-xl: 768px;
   .quiz-question {
     margin: 0.5em 0;
     // adapt question text to screen
-    font-size: 1em;
+    font-size: 1.2em;
     @media (min-height: $screen-height-sm) {
-      font-size: 1.3em;
+      font-size: 1.4em;
     }
     @media (min-height: $screen-height-lg) {
       margin: 1em 0;
       font-size: 1.6em;
     }
     @media (orientation: landscape) {
-      font-size: 1.3em;
+      font-size: 1.4em;
     }
   }
   .quiz-choices {
@@ -144,6 +144,7 @@ $screen-height-xl: 768px;
     // list layout if landscape orientation
     @media (orientation: landscape) and (max-height: $screen-height-md) {
       max-width: 90vw;
+      padding: 0.5em;
       grid-template-rows: 1fr;
       grid-template-columns: 1fr 1fr 1fr 1fr;
     }

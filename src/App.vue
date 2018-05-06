@@ -40,6 +40,10 @@ $screen-height-xl: 768px;
 
 * {
   box-sizing: border-box;
+  // custom font
+  font-family: "Open Sans", "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 // mobile screen sizing
@@ -57,10 +61,6 @@ body {
 
 // app styles
 #app {
-  font-family: "Open Sans", "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
   &.container {
     // fullscreen-height
     height: 100vh;
@@ -123,6 +123,9 @@ body {
     hr {
       width: 100%;
       margin-top: 0;
+      @media (min-width: $screen-width-xl) and (min-width: $screen-height-xl) {
+        margin: 1em 0;
+      }
     }
     .content {
       overflow-y: hidden;

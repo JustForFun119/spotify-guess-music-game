@@ -1,6 +1,7 @@
 <template>
   <div class="login">
-    <button @click="spotifyLogin">Login to Spotify</button>
+    <p>Play the game with your Spotify playlists</p>
+    <button @click="spotifyLogin" class="login-button">Login with Spotify</button>
   </div>
 </template>
 
@@ -36,6 +37,29 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss">
+div.login {
+  text-align: center;
+  font-size: 1.2em;
+  button.login-button {
+    margin: 1em;
+    padding: 1em 1.2em;
+    font-size: 1em;
+    border: none;
+    border-radius: 2em;
+    border-width: 0;
+    user-select: none;
+    /* official Spotify branding color */
+    background-color: #1db954;
+    color: white;
+    transition: background-color 0.1s;
+    &:hover {
+      background-color: #1ed760;
+      cursor: pointer;
+    }
+    &:active {
+      background-color: #1aa34a;
+    }
+  }
+}
 </style>

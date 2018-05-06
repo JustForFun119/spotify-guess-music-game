@@ -116,7 +116,8 @@ export default {
         display: none;
       }
     }
-    @media (min-width: 768px) and (min-width: 768px) {
+    @media (min-width: 720px) and (min-width: 768px) {
+      flex: 0;
       font-size: 1.2em;
     }
   }
