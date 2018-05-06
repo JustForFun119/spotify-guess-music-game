@@ -16,7 +16,7 @@ export default {
   mounted() {
     // init player play/pause state listening
     getSpotifyWebPlayer().addListener("player_state_changed", state => {
-      this.isPaused = state.paused;
+      if (state !== null) this.isPaused = state.paused;
     });
   },
   methods: {
@@ -28,9 +28,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .btn-play-pause {
   user-select: none;
   cursor: pointer;
+  .material-icons {
+    vertical-align: middle;
+  }
 }
 </style>

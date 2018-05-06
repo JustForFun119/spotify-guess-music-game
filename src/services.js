@@ -22,6 +22,8 @@ export function isUserLoggedIn() {
 }
 
 // ---- Spotify web player
+const DefaultPlayerVolume = 0.1;
+
 function initSpotifyWebPlayer() {
     // Register Spotify Web Playback/Player
     window.onSpotifyWebPlaybackSDKReady = () => {
@@ -30,7 +32,7 @@ function initSpotifyWebPlayer() {
             getOAuthToken: cb => {
                 cb(accessToken);
             },
-            volume: 0.25
+            volume: DefaultPlayerVolume
         });
 
         // Error handling

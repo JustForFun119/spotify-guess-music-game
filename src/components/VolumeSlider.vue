@@ -35,7 +35,6 @@ export default {
 input[type="range"].volume-slider {
   -webkit-appearance: none;
   background: none;
-  width: 25%;
   // track
   &::-webkit-slider-runnable-track {
     border-radius: 1rem;
