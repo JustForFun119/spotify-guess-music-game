@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import { getSpotifyWebPlayer } from "../services.js";
+import { getPlayerVolume, setPlayerVolume } from "../services.js";
 
 export default {
   name: "volume-slider",
@@ -13,19 +13,17 @@ export default {
   },
   mounted() {
     // init volume slider value from web player
-    getSpotifyWebPlayer()
-      .getVolume()
-      .then(volume => {
-        // player volume is over 100%
-        // convert to 0-100 for range input
-        this.volume = volume * 100;
-      });
+    getPlayerVolume().then(volume => {
+      // player volume is over 100%
+      // convert to 0-100 for range input
+      this.volume = volume * 100;
+    });
   },
   methods: {
     onVolumeChange(event) {
       const volume = event.target.valueAsNumber / 100;
       // set volume on web player
-      getSpotifyWebPlayer().setVolume(volume);
+      setPlayerVolume(volume);
     }
   }
 };
@@ -47,7 +45,12 @@ input[type="range"].volume-slider {
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
-    background-color: white;
+    background-color: lightgrey;
+    @media (hover: hover) {
+      &:hover {
+        background-color: white;
+      }
+    }
   }
 }
 </style>

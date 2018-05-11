@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { getSpotifyWebPlayer } from "../services.js";
+import { onPlayerStateChanged, togglePlayback } from "../services.js";
 
 export default {
   name: "play-pause-button",
@@ -15,14 +15,14 @@ export default {
   },
   mounted() {
     // init player play/pause state listening
-    getSpotifyWebPlayer().addListener("player_state_changed", state => {
+    onPlayerStateChanged(state => {
       if (state !== null) this.isPaused = state.paused;
     });
   },
   methods: {
     togglePlayPause() {
       // resume/pause local playback of player
-      getSpotifyWebPlayer().togglePlay();
+      togglePlayback();
     }
   }
 };
@@ -32,8 +32,15 @@ export default {
 .btn-play-pause {
   user-select: none;
   cursor: pointer;
-  .material-icons {
+  i.material-icons {
     vertical-align: middle;
+    font-size: 36px;
+    color: lightgrey;
+    @media (hover: hover) {
+      &:hover {
+        color: white;
+      }
+    }
   }
 }
 </style>

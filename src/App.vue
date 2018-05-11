@@ -91,7 +91,7 @@ body {
       .header-title {
         font-weight: bold;
         @media (min-width: $screen-width-lg) and (min-height: $screen-height-sm),
-          (orientation: landscape) and (min-height: $screen-height-sm) {
+          (orientation: landscape) {
           display: block;
           font-size: 1.5em;
         }

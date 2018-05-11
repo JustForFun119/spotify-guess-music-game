@@ -44,7 +44,7 @@ export default {
   display: flex;
   flex-direction: row;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: center;
   overflow-y: scroll; // scrolling
   & > .playlist-item {
     width: 40vw;
@@ -53,6 +53,15 @@ export default {
     @media (min-width: 425px) {
       width: 35vw;
       margin: 1em 0.5em;
+    }
+    @media (min-width: 600px) {
+      width: 25vw;
+    }
+    @media (min-width: 768px) {
+      width: 18vw;
+    }
+    @media (min-width: 900px) {
+      width: 16vw;
     }
     div.playlist-item--image > img {
       width: 100%;
@@ -66,7 +75,7 @@ export default {
     }
     div.playlist-item--text {
       max-width: 100%;
-      padding: 0.2em 0;
+      padding: 0.2em;
       // background
       background: rgba(0, 0, 0, 0.33);
       // text styles

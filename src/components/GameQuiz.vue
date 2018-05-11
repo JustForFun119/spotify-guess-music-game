@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="quiz">
+    <div v-show="isPlayingQuiz" class="quiz">
       <p class="quiz-question">What is this track?</p>
       <div class="quiz-choices">
         <div v-for="(track, idx) in question.tracks" :key="idx"
@@ -16,17 +16,21 @@
         </div>
       </div>
     </div>
+    <div v-show="isPlayingQuiz === false" class="quiz-result">
+      Quiz Done!
+    </div>
   </div>
 </template>
 
 <script>
-import { playTrackOnPlayer } from "../services.js";
+import { playTrack, pausePlayback } from "../services.js";
 
 export default {
   name: "game-quiz-view",
   props: { tracks: Array },
   data() {
     return {
+      isPlayingQuiz: false,
       tracksPool: null,
       question: {
         tracks: null,
@@ -40,6 +44,7 @@ export default {
   },
   methods: {
     startGame() {
+      this.isPlayingQuiz = true;
       // Guess name of track from 4 random tracks
       this.nextQuestion();
     },
@@ -62,16 +67,24 @@ export default {
       }
     },
     playTrack(track) {
-      playTrackOnPlayer(track.uri, this.spotifyWebPlayer).catch(error => {
+      playTrack(track.uri).catch(error => {
         console.log(error);
       });
     },
     onAnswerSelect(trackIdx) {
       if (trackIdx === this.question.answerIdx) {
         // correct answer!
-        this.nextQuestion();
+        if (this.tracksPool.length >= 4) {
+          // next if still have tracks in playlist
+          this.nextQuestion();
+        } else {
+          // not enough tracks for quiz: quiz done
+          this.isPlayingQuiz = false;
+          // also pause music playback
+          pausePlayback();
+        }
       } else {
-        // wrong answer
+        // wrong answer TODO: do something?
       }
     }
   },
@@ -141,6 +154,9 @@ $screen-height-xl: 768px;
     @media (min-width: $screen-width-lg) {
       max-width: 50vh;
     }
+    @media (min-width: $screen-width-xl) and (min-height: $screen-height-xl) {
+      max-width: 50vmax;
+    }
     // list layout if landscape orientation
     @media (orientation: landscape) and (max-height: $screen-height-md) {
       max-width: 90vw;
@@ -152,8 +168,10 @@ $screen-height-xl: 768px;
       position: relative;
       // box shadow on mouse hover
       transition: box-shadow 0.1s ease-in;
-      &:hover {
-        box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);
+      @media (hover: hover) {
+        &:hover {
+          box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);
+        }
       }
       img.quiz-choice--album-cover {
         width: 100%;
@@ -162,7 +180,7 @@ $screen-height-xl: 768px;
       }
       .quiz-choice--info {
         position: absolute;
-        top: 16%;
+        top: 12%;
         left: 0;
         width: 100%;
         max-height: 70%;
@@ -174,7 +192,7 @@ $screen-height-xl: 768px;
         color: lightgrey;
         // adapt quiz info to screen
         @media (max-width: $screen-width-sm), (min-width: $screen-width-lg) {
-          top: 10%;
+          top: 6%;
           max-height: 85%;
         }
         @media (max-height: $screen-height-md) {
@@ -192,19 +210,19 @@ $screen-height-xl: 768px;
           // text overflow
           overflow: hidden;
           text-overflow: ellipsis;
-          // adapt font size to screen
+          // adapt font size to screen TODO: better way of font resizing?
           --name-small-font: 1em;
           font-size: var(--name-small-font);
-          max-height: calc((var(--name-small-font) + 0.5em) * 3);
+          max-height: calc(var(--name-small-font) * 3);
           @media (min-width: $screen-width-md) and (min-height: $screen-height-md) {
-            --name-medium-font: 1.2em;
+            --name-medium-font: 1.1em;
             font-size: var(--name-medium-font);
-            max-height: calc((var(--name-medium-font) + 0.5em) * 3);
+            max-height: calc((var(--name-medium-font) - 0.1em) * 3);
           }
           @media (min-width: $screen-width-lg) and (min-height: $screen-height-lg) {
-            --name-large-font: 1.4em;
+            --name-large-font: 1.2em;
             font-size: var(--name-large-font);
-            max-height: calc((var(--name-large-font) + 0.5em) * 3);
+            max-height: calc((var(--name-large-font) + 0.2em) * 3);
           }
         }
         .quiz-choice--text-artist {
@@ -235,5 +253,11 @@ $screen-height-xl: 768px;
       }
     }
   }
+}
+
+.quiz-result {
+  padding: 1em 0;
+  font-size: 2em;
+  text-align: center;
 }
 </style>

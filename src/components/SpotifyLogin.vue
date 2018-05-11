@@ -10,10 +10,11 @@ export default {
   name: "spotify-login",
   methods: {
     spotifyLogin() {
+      // Spotify app client ID
       const clientID = "f798f0cebd0f45419dc1135072d12534";
-      const redirectURI = "http://localhost:8080/#/login";
+      // Spotify client auth scopes
       const scopes = [
-        // web playback
+        // web music playback
         "streaming",
         "user-read-birthdate",
         "user-read-email",
@@ -23,6 +24,9 @@ export default {
         "playlist-read-private",
         "playlist-read-collaborative"
       ];
+      // URL to redirect to after auth
+      const redirectURI = "http://localhost:8080/#/login";
+      // visit Spotify auth page for client login
       this.redirectTo(
         "https://accounts.spotify.com/authorize?response_type=token" +
           `&client_id=${clientID}` +

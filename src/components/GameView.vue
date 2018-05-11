@@ -17,12 +17,12 @@
       </div>
 
       <game-quiz v-if="canStartGame" :tracks="playlistTracks" class="game-quiz"/>
-      
-      <div class="player-controls">
-        <play-pause-button/>
+    </div>
+
+    <div v-show="canStartGame" class="player-controls">
+        <play-pause-button class="playback-control"/>
         <volume-slider class="vol-control"/>
       </div>
-    </div>
   </div>
 </template>
 
@@ -55,8 +55,13 @@ export default {
     onPlaylistSelect(playlist) {
       this.selectedPlaylist = playlist;
       fetchPlaylistTracks(playlist.id).then(tracks => {
-        this.playlistTracks = tracks;
-        this.canStartGame = true;
+        if (tracks) {
+          this.playlistTracks = tracks;
+          this.canStartGame = true;
+        } else {
+          // failed to obtain playlist tracks
+          // TODO: retry?
+        }
       });
     }
   }
@@ -122,27 +127,31 @@ export default {
     }
   }
   .game-quiz {
-    flex: 1;
+    flex: 8;
   }
-  .player-controls {
+}
+.player-controls {
+  position: sticky;
+  bottom: 0;
+  min-height: 16%;
+  padding: 0 1em;
+  background-color: rgba(50, 50, 50, 0.5);
+  // flex row
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 1em;
+  justify-items: center;
+  align-items: center;
+  // responsive
+  @media (min-height: 580px) {
     min-height: 10%;
-    margin-top: 5%;
-    background-color: rgba(50, 50, 50, 0.5);
-    // flex row
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    // responsive
-    @media (orientation: landscape) {
-      margin-top: 0;
-    }
-    & > * {
-      margin: 0 1rem;
-    }
-    .vol-control {
-      width: 33%;
-    }
+  }
+  // TODO: better way of aligning controls?
+  .playback-control {
+    grid-column-start: 2;
+  }
+  .vol-control {
+    width: 100%;
   }
 }
 </style>
