@@ -1,6 +1,9 @@
 <template>
-  <input type="range" min="0" max="100" step="1" class="volume-slider"
-    v-model.number="volume" @input="onVolumeChange" @change="onVolumeChange"/>
+  <div class="vol-slider-container">
+    <i class="material-icons">{{ volumeIconName }}</i>
+    <input type="range" min="0" max="100" step="1" class="volume-slider"
+      v-model.number="volume" @input="onVolumeChange" @change="onVolumeChange"/>
+  </div>
 </template>
 
 <script>
@@ -9,7 +12,7 @@ import { getPlayerVolume, setPlayerVolume } from "../services.js";
 export default {
   name: "volume-slider",
   data() {
-    return { volume: 0.1 };
+    return { volume: 0.1, volumeIconName: "volume_up" };
   },
   mounted() {
     // init volume slider value from web player
@@ -24,31 +27,44 @@ export default {
       const volume = event.target.valueAsNumber / 100;
       // set volume on web player
       setPlayerVolume(volume);
+      // set volume icon to volume level
+      if (volume > 0.5) {
+        this.volumeIconName = "volume_up";
+      } else if (volume > 0) {
+        this.volumeIconName = "volume_down";
+      } else {
+        this.volumeIconName = "volume_mute";
+      }
     }
   }
 };
 </script>
 
 <style lang="scss">
-input[type="range"].volume-slider {
-  -webkit-appearance: none;
-  background: none;
-  // track
-  &::-webkit-slider-runnable-track {
-    border-radius: 1rem;
-    border: none;
-    background-color: grey;
+.vol-slider-container {
+  & > * {
+    vertical-align: middle;
   }
-  // thumb/handle
-  &::-webkit-slider-thumb {
+  input[type="range"].volume-slider {
     -webkit-appearance: none;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    background-color: lightgrey;
-    @media (hover: hover) {
-      &:hover {
-        background-color: white;
+    background: none;
+    // track
+    &::-webkit-slider-runnable-track {
+      border-radius: 1rem;
+      border: none;
+      background-color: grey;
+    }
+    // thumb/handle
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background-color: lightgrey;
+      @media (hover: hover) {
+        &:hover {
+          background-color: white;
+        }
       }
     }
   }
