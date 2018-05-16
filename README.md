@@ -1,6 +1,6 @@
-# spotify-guess-music-vuejs
+# spotify-guess-music-game
 
-> Web app/game about guessing music (title, artist, album etc.) from playback
+> Web app/game about guessing music (title, artist, album etc.) from playback using Spotify web API
 
 ## Build Setup
 
