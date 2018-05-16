@@ -24,8 +24,9 @@ export default {
         "playlist-read-private",
         "playlist-read-collaborative"
       ];
-      // URL to redirect to after auth
-      const redirectURI = "http://localhost:8080/#/login";
+      // redirect to this (login) page after auth
+      // auth result will be caught by vue-router (see /main.js)
+      const redirectURI = `${window.location.origin}/#/login`;
       // visit Spotify auth page for client login
       this.redirectTo(
         "https://accounts.spotify.com/authorize?response_type=token" +
