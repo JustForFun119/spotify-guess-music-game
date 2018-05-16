@@ -19,10 +19,13 @@
       <game-quiz v-if="canStartGame" :tracks="playlistTracks" class="game-quiz"/>
     </div>
 
-    <div v-show="canStartGame" class="player-controls">
+    <div v-show="canStartGame" class="playback">
+      <playback-progress-bar class="playback--progress-bar"/>
+      <div class="playback--controls">
         <play-pause-button class="playback-control"/>
         <volume-slider class="vol-control"/>
       </div>
+    </div>
   </div>
 </template>
 
@@ -31,11 +34,18 @@ import PlaylistPicker from "./PlaylistPicker.vue";
 import GameQuiz from "./GameQuiz.vue";
 import VolumeSlider from "./VolumeSlider.vue";
 import PlayPauseButton from "./PlayPauseButton.vue";
+import PlaybackProgressBar from "./PlaybackProgressBar.vue";
 import { fetchUserPlaylist, fetchPlaylistTracks } from "../services.js";
 
 export default {
   name: "game-view",
-  components: { PlaylistPicker, GameQuiz, VolumeSlider, PlayPauseButton },
+  components: {
+    PlaylistPicker,
+    GameQuiz,
+    VolumeSlider,
+    PlayPauseButton,
+    PlaybackProgressBar
+  },
   data() {
     return {
       playlists: null,
@@ -130,28 +140,39 @@ export default {
     flex: 8;
   }
 }
-.player-controls {
+.playback {
   position: sticky;
   bottom: 0;
   min-height: 16%;
   padding: 0 1em;
-  background-color: rgba(50, 50, 50, 0.5);
-  // flex row
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 1em;
-  justify-items: center;
-  align-items: center;
+  // flexbox for progress bar and controls
+  display: flex;
+  flex-direction: column;
   // responsive
   @media (min-height: 580px) {
     min-height: 10%;
   }
-  // TODO: better way of aligning controls?
-  .playback-control {
-    grid-column-start: 2;
+  .playback--progress-bar {
+    height: 1vh;
   }
-  .vol-control {
-    width: 100%;
+  .playback--controls {
+    flex: 1;
+    padding: 0 1em;
+    background-color: rgba(50, 50, 50, 0.5);
+    // flex row
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 1em;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    // TODO: better way of aligning controls?
+    .playback-control {
+      grid-column-start: 2;
+    }
+    .vol-control {
+      width: 100%;
+    }
   }
 }
 </style>

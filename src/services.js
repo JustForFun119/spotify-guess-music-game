@@ -86,11 +86,31 @@ export function onPlayerStateChanged(listener) {
     if (isPremiumUser) { // web player
         spotifyWebPlayer.addListener("player_state_changed", listener);
     } else { // local playback
-        const callback = e => {
+        const callback = (e) => {
             listener({ paused: localMusicPlayer.paused });
         };
         localMusicPlayer.addEventListener('play', callback);
         localMusicPlayer.addEventListener('pause', callback);
+    }
+}
+// playback progress update
+export function onPlayerProgressUpdated(listener) {
+    if (isPremiumUser) { // web player
+        // TODO: Spotify web playback progress update
+    } else { // local playback
+        localMusicPlayer.addEventListener('timeupdate', e => {
+            listener(localMusicPlayer.currentTime * 1000);
+        });
+    }
+}
+// playback duration update
+export function onPlayerDurationUpdated(listener) {
+    if (isPremiumUser) { // web player
+        // TODO: Spotify web playback duration update
+    } else { // local playback
+        localMusicPlayer.addEventListener('durationchange', e => {
+            listener(localMusicPlayer.duration * 1000);
+        });
     }
 }
 // player controls
@@ -182,7 +202,8 @@ export function fetchUserPlaylist() {
                 // user ID exist
                 if (!resJson['id']) reject('invalid user info');
                 // check if user is a premium user
-                isPremiumUser = resJson['product'] === 'premium';
+                // TODO: review use case for premium user
+                // isPremiumUser = resJson['product'] === 'premium';
                 userID = resJson['id'];
                 // get user playlists from '/users/{ID}/playlists' API endpoint
                 fetch(`https://api.spotify.com/v1/users/${userID}/playlists`,
