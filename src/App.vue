@@ -1,14 +1,19 @@
 <template>
   <div id="app" class="container">
     <div class="header">
-      <span class="header-title">Guess the Music!</span>
-      <span class="header-subtitle">Powered by <a href="https://www.spotify.com" target="_blank">
-        <picture class="spotify-logo">
-          <source media="(max-width: 424px)" srcset="./assets/Spotify_Icon_RGB_Green.png">
-          <source media="(min-width: 425px)" srcset="./assets/Spotify_Logo_RGB_Green.png">
-          <img src="./assets/Spotify_Logo_RGB_Green.png" alt="Spotify"/>
-        </picture></a>
-      </span>
+      <div class="header--nav">
+        <i class="material-icons" @click="visitHomePage">home</i>
+      </div>
+      <div class="header--info">
+        <span class="header-title">Guess the Music!</span>
+        <span class="header-subtitle">Powered by <a href="https://www.spotify.com" target="_blank">
+          <picture class="spotify-logo">
+            <source media="(max-width: 424px)" srcset="./assets/Spotify_Icon_RGB_Green.png">
+            <source media="(min-width: 425px)" srcset="./assets/Spotify_Logo_RGB_Green.png">
+            <img src="./assets/Spotify_Logo_RGB_Green.png" alt="Spotify"/>
+          </picture></a>
+        </span>
+      </div>
     </div>
     <hr>
     <router-view class="content"></router-view>
@@ -24,6 +29,11 @@ export default {
     // redirect to login page if not logged in
     if (isUserLoggedIn() === false) {
       this.$router.push("login");
+    }
+  },
+  methods: {
+    visitHomePage() {
+      window.location.href = "/";
     }
   }
 };
@@ -74,50 +84,74 @@ body {
       padding: 1em 2em;
     }
     .header {
-      text-align: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      @media (min-width: $screen-width-lg) and (min-height: $screen-height-sm),
+        (orientation: landscape) {
+        text-align: start;
+        align-items: flex-end;
+      }
       span {
         margin: 0;
       }
-      picture.spotify-logo > img {
-        min-width: 21px; // per Spotify icon branding guideline
-        max-width: 2em;
-        margin: 0.5em;
-        vertical-align: middle;
-        @media (min-width: $screen-width-lg) {
-          min-width: 70px; // per Spotify icon branding guideline
-          max-width: 7em;
-        }
-      }
-      .header-title {
-        font-weight: bold;
+      .header--info {
         @media (min-width: $screen-width-lg) and (min-height: $screen-height-sm),
           (orientation: landscape) {
-          display: block;
-          font-size: 1.5em;
+          order: 1;
         }
-        @media (min-width: $screen-width-xl) and (min-width: $screen-height-xl) {
-          font-size: 1.8em;
-        }
-      }
-      .header-subtitle {
-        &::before {
-          content: " - ";
-        }
-        @media (min-width: $screen-width-lg) and (min-height: $screen-height-sm) {
-          max-width: 1em;
-          font-size: 1.3em;
-          &::before {
-            content: "";
+        picture.spotify-logo > img {
+          min-width: 21px; // per Spotify icon branding guideline
+          max-width: 2em;
+          margin: 0.5em;
+          vertical-align: middle;
+          @media (min-width: $screen-width-lg) {
+            min-width: 70px; // per Spotify icon branding guideline
+            max-width: 7em;
           }
         }
-        @media (min-width: $screen-width-xl) and (min-width: $screen-height-xl) {
-          font-size: 1.6em;
+        .header-title {
+          font-weight: bold;
+          @media (min-width: $screen-width-lg) and (min-height: $screen-height-sm),
+            (orientation: landscape) {
+            display: block;
+            font-size: 1.5em;
+          }
+          @media (min-width: $screen-width-xl) and (min-width: $screen-height-xl) {
+            font-size: 1.8em;
+          }
+        }
+        .header-subtitle {
+          &::before {
+            content: " - ";
+          }
+          font-size: 0.8em;
+          @media (min-width: $screen-width-lg) and (min-height: $screen-height-sm) {
+            max-width: 1em;
+            font-size: 1.3em;
+            &::before {
+              content: "";
+            }
+          }
+          @media (min-width: $screen-width-xl) and (min-width: $screen-height-xl) {
+            font-size: 1.6em;
+          }
         }
       }
-      @media (min-width: $screen-width-lg) and (min-height: $screen-height-sm),
-        (orientation: landscape) {
-        display: block;
-        text-align: start;
+      .header--nav {
+        & > i {
+          user-select: none;
+          cursor: pointer;
+        }
+        @media (min-width: $screen-width-lg) and (min-height: $screen-height-sm),
+          (orientation: landscape) {
+          order: 2;
+          margin: 0 1em;
+          & > i {
+            font-size: 36px;
+          }
+        }
       }
     }
     hr {

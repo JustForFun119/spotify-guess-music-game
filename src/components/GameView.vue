@@ -143,7 +143,7 @@ export default {
 .playback {
   position: sticky;
   bottom: 0;
-  min-height: 16%;
+  min-height: 14%;
   padding: 0 1em;
   // flexbox for progress bar and controls
   display: flex;
