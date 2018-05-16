@@ -28,7 +28,7 @@ export default {
       // set volume on web player
       setPlayerVolume(volume);
       // set volume icon to volume level
-      if (volume > 0.5) {
+      if (volume > 0.33) {
         this.volumeIconName = "volume_up";
       } else if (volume > 0) {
         this.volumeIconName = "volume_down";
@@ -46,6 +46,7 @@ export default {
     vertical-align: middle;
   }
   input[type="range"].volume-slider {
+    width: 60%;
     -webkit-appearance: none;
     background: none;
     // track

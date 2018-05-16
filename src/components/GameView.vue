@@ -161,8 +161,8 @@ export default {
     background-color: rgba(50, 50, 50, 0.5);
     // flex row
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-column-gap: 1em;
+    grid-template-columns: 2fr 1fr 2fr;
+    grid-column-gap: 0.5em;
     justify-items: center;
     align-items: center;
     align-content: center;

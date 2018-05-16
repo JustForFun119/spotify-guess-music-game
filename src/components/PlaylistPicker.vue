@@ -48,7 +48,7 @@ export default {
   overflow-y: scroll; // scrolling
   & > .playlist-item {
     width: 40vw;
-    margin: 1em 0;
+    margin: 1em 0.25em;
     position: relative;
     @media (min-width: 425px) {
       width: 35vw;

@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     togglePlayPause() {
-      // resume/pause local playback of player
+      // resume/pause playback of player
       togglePlayback();
     }
   }
