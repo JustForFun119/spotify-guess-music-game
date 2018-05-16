@@ -103,6 +103,7 @@ $screen-width-sm: 320px;
 $screen-width-md: 375px;
 $screen-width-lg: 425px;
 $screen-width-xl: 768px;
+$screen-width-xxl: 1024px;
 // -- heights
 $screen-height-sm: 500px;
 $screen-height-md: 580px;
@@ -154,8 +155,14 @@ $screen-height-xl: 768px;
     @media (min-width: $screen-width-lg) {
       max-width: 50vh;
     }
+    // tablet screen (and larger)
     @media (min-width: $screen-width-xl) and (min-height: $screen-height-xl) {
-      max-width: 50vmax;
+      max-height: 60vmax;
+      // laptop/desktop width
+      @media (min-width: $screen-width-xxl) {
+        max-width: 60vh;
+        max-height: 75vmax;
+      }
     }
     // list layout if landscape orientation
     @media (orientation: landscape) and (max-height: $screen-height-md) {
