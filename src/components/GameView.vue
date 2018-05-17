@@ -157,7 +157,6 @@ export default {
   }
   .playback--controls {
     flex: 1;
-    padding: 0 1em;
     background-color: rgba(50, 50, 50, 0.5);
     // flex row
     display: grid;

@@ -71,6 +71,7 @@ export default {
     cursor: pointer;
   }
   input[type="range"].volume-slider {
+    margin: 0;
     width: 60%;
     -webkit-appearance: none;
     background: none;

@@ -33,7 +33,9 @@ export default {
   },
   methods: {
     visitHomePage() {
-      window.location.href = "/";
+      window.location.href = window.location.href.split(
+        window.location.hash
+      )[0];
     }
   }
 };
