@@ -8,6 +8,10 @@
 <script>
 export default {
   name: "spotify-login",
+  mounted(){
+    console.log(window.location);
+    console.log(`${window.location.origin}${window.location.pathname}#/login`);
+  },
   methods: {
     spotifyLogin() {
       // Spotify app client ID
@@ -25,7 +29,7 @@ export default {
         "playlist-read-collaborative"
       ];
       // redirect to this (login) page after auth
-      const redirectURI = window.location.href;
+      const redirectURI = `${window.location.origin}${window.location.pathname}#/login`;
       // auth result will be caught by vue-router (see /main.js)
       // visit Spotify auth page for client login
       this.redirectTo(
